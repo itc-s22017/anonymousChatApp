@@ -6,7 +6,7 @@
   3, 自分のリポジトリに行きcreate pull requestを送る
 
   # フォーク元の変更をローカルに取り入れる(みんなやってほしい）
-  1, git remote add upstream https://github.com/itc-s22017/anonymousChatApp
+  1, git remote add upstream https://github.com/itc-s22017/anonymousChatApp.git
   
   2, git fetch upstream
   
