@@ -9,5 +9,7 @@
 
  # 変更分をpushする方法
   1, 変更したファイルをgit add と git commitする
+  
   2, 次に git push origin [作業中のブランチ名]
+  
   3, 自分のリポジトリに行きcreate pull requestを送る
