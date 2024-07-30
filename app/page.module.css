@@ -1,0 +1,27 @@
+.h1 {
+    text-align: center;
+    margin-top: 10%;
+  }
+  
+  .content {
+    padding: 35px;
+    margin: 0 auto;
+    max-width: 800px;
+  }
+
+  .input1,
+  .input2 {
+    padding: 10px;
+    width: 100%;
+    margin-bottom: 20%;
+  }
+
+  .blueButton {
+    background-color: #1E90FF;
+    color: black;
+    border: none;
+    padding: 50px 170px;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 35px;
+  }

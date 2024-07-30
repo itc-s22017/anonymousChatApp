@@ -1,17 +1,28 @@
+import Link from 'next/link'
+import styles from './page.module.css';
+
 export default async function Home() {
-
-  type Test = {
-    message: string
-  } 
-  const response = await fetch("http://localhost:4000/test", {
-    method: "GET",
-    cache: "no-store",
-  });
-
-  const content: Test = await response.json();
-  console.log(content.message);
-
   return (
-    <p>{content.message}</p>
+    <div className={styles.h1}>
+      <div className={styles.content}>
+        <Link href={'/create'} className={styles.input1}>
+          <button
+          className={styles.blueButton}
+          type="submit"
+          id="button"
+          >ルームを作る</button>
+        </Link>
+      </div>
+      <div>
+        <Link href={'/join'} className={styles.input2}>
+          <button
+          type="submit"
+          id="button"
+          className={styles.blueButton}
+          >ルームに入る</button>
+        </Link>
+      </div>
+
+    </div>
   );
 }
