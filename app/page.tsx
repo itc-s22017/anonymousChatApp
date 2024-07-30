@@ -7,7 +7,7 @@ export default async function Home() {
       <div className={styles.content}>
         <Link href={'/create'} className={styles.input1}>
           <button
-          className={styles.blueButton}
+          className={styles.button}
           type="submit"
           id="button"
           >ルームを作る</button>
@@ -18,7 +18,7 @@ export default async function Home() {
           <button
           type="submit"
           id="button"
-          className={styles.blueButton}
+          className={styles.button}
           >ルームに入る</button>
         </Link>
       </div>
