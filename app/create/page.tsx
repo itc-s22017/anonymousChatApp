@@ -3,10 +3,7 @@
 import React, { useState } from 'react';
 import styles from './create.module.css';
 import { useRouter } from 'next/navigation';
-import io from 'socket.io-client';
-
-
-const socket = io('http://localhost:4000');
+import socket from '../utils/socket';
 
 export default function Create() {
     const [roomTitle, setRoomTitle] = useState('');
@@ -17,12 +14,12 @@ export default function Create() {
         return Math.floor(100000 + Math.random() * 900000).toString();
     };
 
-
     const handleCreate = () => {
         if (roomTitle) {
             const newRoomId = generateRoomId();
             setRoomId(newRoomId);
             socket.emit("createRoom", newRoomId, roomTitle);
+            router.push(`room/${newRoomId}`);  
         } else {
             alert('ルーム名を入力してください');
         }
@@ -60,4 +57,3 @@ export default function Create() {
         </div>
     );
 }
-
