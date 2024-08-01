@@ -1,8 +1,9 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useRouter } from 'next/navigation';
+import socket from '../utils/socket';
 
 const JoinContainer = styled.div`
   display: flex;
@@ -37,32 +38,51 @@ const Button = styled.button`
 `;
 
 const Join: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [roomName, setRoomName] = useState('');
+  const [roomId, setRoomId] = useState<string>("");
   const router = useRouter();
+  const [joinRoomStatus, setJoinRoomStatus] = useState<string | null>(null);
 
-  const handleJoin = () => {
-    if (username && roomName) {
-      // ここでルーム参加の処理を実行（例：API呼び出しなど）
-      router.push(`/chat?room=${roomName}&user=${username}`);
-    } else {
-      alert('ユーザー名とルーム名を入力してください');
+  useEffect(() => {
+    const handleJoinRoomResponse = (response: { success: boolean }) => {
+      if (response.success) {
+        router.push(`/room/${roomId}`);
+      } else {
+        alert("ルームが存在しません");
+        setJoinRoomStatus("failed");
+      }
+    };
+
+    socket.on("joinRoomResponse", handleJoinRoomResponse);
+
+    return () => {
+      socket.off("joinRoomResponse", handleJoinRoomResponse);
+    };
+  }, [roomId, router]);
+
+  const handleJoinRoom = () => {
+    if (roomId.trim() !== "") {
+      socket.emit("joinRoom", roomId);
+      setJoinRoomStatus(null); 
     }
   };
+
+
 
   return (
     <JoinContainer>
       <h1>ルームに参加</h1>
       <Input
         type="text"
-        placeholder="ユーザー名"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        placeholder="ルームID"
+        value={roomId}
+        onChange={(e) => setRoomId(e.target.value)}
       />
-      <Button onClick={handleJoin}>参加</Button>
+      <Button onClick={handleJoinRoom}>参加</Button>
     </JoinContainer>
   );
 };
 
 export default Join;
+
+
 
