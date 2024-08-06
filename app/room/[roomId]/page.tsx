@@ -2,11 +2,13 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import socket from '@/app/utils/socket';
+import { useRouter } from 'next/navigation';
 
 const Chat = ({ params }: { params: { roomId: string } }) => {
     const [messages, setMessages] = useState<{ id: string; message: string }[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [className, setClassName] = useState<string>('');
+    const router = useRouter()
 
     const roomId = params.roomId;
 
@@ -34,6 +36,8 @@ const Chat = ({ params }: { params: { roomId: string } }) => {
         };
     }, [roomId, messages, className]);
 
+
+
     const handleSendMessage = () => {
         if (newMessage.trim()) {
             console.log('Sending message to room:', roomId);
@@ -57,14 +61,14 @@ const Chat = ({ params }: { params: { roomId: string } }) => {
             <div className='flex-1 bg-white p-4 flex flex-col'>
                 <p className='mb-4 text-[30px]'>授業名:{className}</p>
                 <p className='mb-4 text-[30px]'>ルームID:{roomId}</p>
-                <textarea 
-                    name="text" 
-                    id="text" 
+                <textarea
+                    name="text"
+                    id="text"
                     value={newMessage}
                     onChange={(e) => setNewMessage(e.target.value)}
                     className='w-full h-80 p-2 border rounded-lg mb-2 resize-none'
                 ></textarea>
-                <button 
+                <button
                     onClick={handleSendMessage}
                     className='self-end p-2 bg-blue-500 text-white rounded-lg'
                 >
