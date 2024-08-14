@@ -2,13 +2,13 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import socket from '@/app/utils/socket';
-import { useRouter } from 'next/navigation';
 
 const Chat = ({ params }: { params: { roomId: string } }) => {
     const [messages, setMessages] = useState<{ id: string; message: string }[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [className, setClassName] = useState<string>('');
-    const router = useRouter()
+    const [socketId, setSocketId] = useState<string>('');
+
 
     const roomId = params.roomId;
 
@@ -19,15 +19,17 @@ const Chat = ({ params }: { params: { roomId: string } }) => {
             setMessages((prevMessages) => [...prevMessages, messageData]);
             console.log('Received message:', messageData);
         };
-
+        
         socket.on('receiveMessage', handleReceiveMessage);
-
+        
         socket.emit("joinedRoom", roomId);
         socket.on("getClassName", (cn) => {
             setClassName(cn);
             console.log(cn);
         });
-
+        
+        setSocketId(socket.id!)
+        
         messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
         return () => {
@@ -51,7 +53,7 @@ const Chat = ({ params }: { params: { roomId: string } }) => {
             <div className='flex-1 bg-[#E6E6FA] p-4'>
                 <div className='flex flex-col h-full overflow-y-auto'>
                     {messages.map((msg, index) => (
-                        <div key={index} className='p-2 mb-2 bg-white rounded-lg shadow-sm'>
+                        <div key={index} className={msg.id !== socketId ? 'p-2 mb-2 bg-white rounded-lg shadow-sm' : 'p-2 mb-2 bg-cyan-300 rounded-lg shadow-sm'}>
                             {msg.message}
                         </div>
                     ))}
